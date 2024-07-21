@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Category Blogs {% endblock title %}
+
+{% block content %}
+<style>
+.container-blog {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Centra los elementos del contenedor */
+  padding: 4px;
+}
+</style>
+    <section >
+      <div >
+        <div >
+          <div >
+            <div >
+              <section class="container-blog">
+                {% for blog in blogs %}
+                  {% include 'blog_card.html' %}
+                {% endfor %}
+              </section>
+              <div >
+                {% include 'pagination.html' %}
+              </div>
+            </div>
+        </div>
+          <!-- {% include 'sidebar.html' with blogs=all_blogs %} -->
+        </div>
+      </div>
+    </section>
+
+{% endblock content %}

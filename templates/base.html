@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+      {% load static %}
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="TemplateMo">
+    
+    
+
+    <title>{% block title %} {% endblock title %}</title>
+
+    
+</head>
+<body>
+
+  <style>
+    body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    min-height: 500vh;
+    background: radial-gradient(circle closest-corner at right center, #337540 0%, #003832 100%);
+ }
+  </style>
+
+    {% include 'header.html' %}
+
+    {% block content %}
+    {% endblock content %}
+
+    {% include 'footer.html' %}
+
+    {% include 'scripts.html' %}
+
+    {% block scripts %}
+    {% endblock scripts %}
+    
+</body>
+</html>

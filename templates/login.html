@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Login {% endblock title %}
+{% block content %}
+<style>
+  
+
+  .login-box {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f0f1f3;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+
+  .login-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .input-login[type="text"],
+  .input-login[type="password"],
+  .input-login[type="submit"],
+  a#form-submit {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  button[type="submit"],
+  a#form-submit {
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+  }
+
+  a#form-submit {
+    background-color: #0275d8;
+  }
+
+  p {
+    color: red;
+    font-size: 14px;
+    margin: 0 0 10px 0;
+  }
+</style>
+
+<div class="login-box">
+  <div class="login-title">Login</div>
+  <form class="login-form" id="contact" action="" method="POST" novalidate>
+    {% csrf_token %}
+    {% if messages %}
+    <div class="col-md-12 col-sm-12">
+      {% include 'message.html' %}
+    </div>
+    {% endif %}
+    <input class="input-login" name="username" type="text" id="username_id" placeholder="Your name/email">
+    <p>{{ form.username.errors }}</p>
+    <input class="input-login" name="password" type="password" id="password_id" placeholder="Your password">
+    <p>{{ form.password.errors }}</p>
+    <button class="input-login" type="submit" id="form-submit">Login</button>
+    <a href="{% url 'register_user' %}" id="form-submit">Signup</a>
+  </form>
+</div>
+
+{% endblock content %}

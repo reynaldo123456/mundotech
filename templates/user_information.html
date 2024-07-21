@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} My Profile {% endblock title %}
+
+{% block content %}
+
+<style>
+    /* Reseteo básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+.profile-section {
+    padding: 20px;
+}
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.profile-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    gap: 25px;
+    flex-wrap: wrap;
+    
+}
+
+.profile-picture-container {
+    display: flex;
+    justify-content: center;
+    background: #f0f1f3;
+    border-radius: 5px;
+    border: 2px solid #006ee6;
+    padding: 0px;
+}
+
+.profile-picture {
+    
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-stats {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    list-style: none;
+    background: #f0f1f3;
+    border-radius: 5px;
+    border: 2px solid #006ee6;
+    padding: 30px;
+}
+
+.profile-stat {
+    flex: 1;
+    text-align: center;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.action-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.action-button:hover {
+    background-color: #0056b3;
+}
+
+.profile-blogs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.blogs-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
+.blog-card {
+    background: #f0f1f3;
+    border-radius: 5px;
+    border: 2px solid #006ee6;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.blog-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.blog-title {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.blog-date {
+    color: #666;
+}
+
+.blog-banner {
+    width: 150px;
+    
+    height: 150px;
+    border-radius: 10px;
+    
+}
+
+.blog-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.tag {
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
+}
+
+.tag:hover {
+    background-color: #ddd;
+}
+
+
+
+</style>
+<section class="profile-section">
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-picture-container">
+                <img src="{{account.get_profile_picture}}" alt="Profile Picture" class="profile-picture">
+            </div>
+            <ul class="profile-stats">
+                <li class="profile-stat">
+                    <span>Posts: <strong>{{account.user_blogs.count}}</strong></span>
+                </li>
+                <li class="profile-stat">
+                    <span>Followers: <strong>{{account.user_followers.count}}</strong></span>
+                </li>
+                <li class="profile-stat">
+                    <span>Following: <strong>{{account.user_follows.count}}</strong></span>
+                </li>
+                <li class="profile-actions">
+                    {% if following %}
+                    <a href="{% url 'follow_or_unfollow_user' account.id %}" class="action-button">Unfollow</a>
+                    {% if muted %}
+                    <a href="#" class="action-button">Unmute</a>
+                    {% else %}
+                    <a href="#" class="action-button">Mute</a>
+                    {% endif %}
+                    {% else %}
+                    <a href="{% url 'follow_or_unfollow_user' account.id %}" class="action-button">Follow</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+        <div class="profile-blogs">
+            <h4>{{account.username}}'s Blogs</h4>
+            <div class="blogs-grid">
+                {% for blog in account.user_blogs.all %}
+                <div class="blog-card">
+                    <a href="#" class="blog-link">
+                        <p class="blog-title">{{blog.title}}</p>
+                        <p class="blog-date">{{blog.created_date}}</p>
+                        <img src="{{blog.banner.url}}" alt="Blog Banner" class="blog-banner">
+                        <div class="blog-tags">
+                            {% if blog.tags.all.count > 0 %}
+                                {% for tag in blog.tags.all %}
+                                <a class="tag" href="#">{{tag.title}}</a>
+                                {% endfor %}
+                            {% else %}
+                                <span>No Tags</span>
+                            {% endif %}
+                        </div>
+                        <a class="action-button" href="{% url 'blog_details' blog.slug %}">{{blog.title}}</a>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

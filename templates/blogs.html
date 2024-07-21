@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Blogs {% endblock title %}
+
+{% block content %}
+
+<style>
+.container-blog {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Centra los elementos del contenedor */
+  padding: 4px;
+}
+.blog-count{
+  margin: auto;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+</style>
+<!--<div>
+  <p class="blog-count">Total ({{paginator.object_list.count}})</p>
+</div> -->
+<section class="container-blog">
+      {% for blog in blogs %}
+        {% include 'blog_card.html' %}
+      {% endfor %}
+</section>
+<div>
+  {% include 'pagination.html' %}
+</div>
+{% endblock content %}

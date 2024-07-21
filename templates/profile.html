@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} My Pofile {% endblock title %}
+
+{% block content %}
+<style>
+    
+    .container-profile {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 2vw;
+        max-width: 100%;
+        width: 40%;
+        height: auto;
+        
+    }
+    .container-profile,
+.profile,
+.modal {
+    width: 80%; /* Tamaño original */
+    margin: auto; /* Centra los elementos */
+}
+
+    .profile {
+        flex: 1 1 100px;
+        margin: 1vw;
+        
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        padding: 1vw;
+        border-radius: 5px;
+        border: 2px solid #006ee6;
+        text-align: center;
+        background: #f0f1f3;
+        
+        
+    }
+    .profile img {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        border: 3px solid #007bff;
+        margin-bottom: 2vw;
+    }
+    .profile ul {
+        list-style: none;
+        padding: 0px;
+        margin-bottom: 1vw; /* Aumenta el margen inferior de la lista */
+        
+    }
+    .profile ul li{
+        
+        padding: 5px;
+        
+    }
+    
+    .profile button {
+        padding: 0.5vw 1.5vw;
+        font-size: 0.8rem;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .profile button:hover {
+        background-color: #0056b3;
+    }
+    .form-group {
+        margin: 0.5vw 0;
+        margin-top: 0vw; /* Aumenta el margen superior del formulario */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
+        margin-bottom: 0vw;
+        font-weight: bold;
+
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 0.5vw;
+        font-size: 0.9rem;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        box-sizing: border-box;
+    }
+    
+    .form-group button {
+        width: 100%;
+        padding: 0.8vw;
+        font-size: 0.9rem;
+        border-radius: 5px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        cursor: pointer;
+        box-sizing: border-box;
+    }
+    .form-group button:hover {
+        background-color: #218838;
+    }
+    
+    .file-upload {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 1vw; /* Aumenta el margen inferior de la subida de archivos */
+      }
+      
+      .custom-file-upload {
+        display: inline-block;
+        border: 2px solid #ccc;
+        padding: 6px 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        background-color: #f0f0f0;
+        color: #333;
+        font-family: Arial, sans-serif;
+      }
+      
+      .custom-file-upload:hover {
+        background-color: #e0e0e0;
+      }
+      
+      #file-input {
+        display: none;
+      }
+
+      .responsive-button {
+        display: inline-block;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 1vw; /* Aumenta el margen superior de los botones */
+      }
+      
+      .responsive-button:hover {
+        background-color: #0056b3;
+      }
+      
+      /* Si deseas que el botón ocupe todo el ancho disponible */
+      .responsive-button.full-width {
+        width: 100%;
+      }
+</style>
+
+                <section class="container-profile">
+                    <div class="profile">
+                        <img src="{{request.user.get_profile_picture}}" alt="">
+                        <ul >
+                            <li >
+                                Posts: <strong>{{account.user_blogs.count}}</strong>
+                            </li>
+                            <li >
+                                Follwers: <strong>{{account.followers.all.count}}</strong>
+                            </li>
+                            <li >
+                                Following: <strong>{{account.user_follows.all.count}}</strong>
+                            </li>
+                        </ul>
+                        <form method="POST" action="{% url 'change_profile_picture' %}" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="file-upload">
+                                <label for="file-input" class="custom-file-upload">
+                                  <i class="fas fa-cloud-upload-alt"></i> Select Image
+                                </label>
+                                <input id="file-input" type="file" name="profile_image" required>
+                              </div>
+                            <div class="form-group">
+                                <button type="submit">Save changes</button>
+                            </div>
+                        </form>
+                        <button class="responsive-button" onclick="window.location.href='{% url 'my_blogs' %}'">
+                            My Courses
+                        </button>
+                    
+
+                        <button class="responsive-button"  onclick="window.location.href='{% url 'add_blog' %}'">
+                            Add Course
+                        </button>
+                    </div>
+
+                                        
+                    <!-- Modal -->
+
+                    
+                            
+                    <div class="profile">
+                        
+                        <div class="form-group">
+                            <h3>Change your Profile</h2>
+                        </div>
+                            
+                        <form  action="{% url 'profile' %}" method="POST">
+                            {% csrf_token %}
+                            {% if messages %}
+                            <div class="form-group">
+                                {% include 'message.html' %}
+                            </div>
+                            {% endif %}
+                            {% if form.non_field_errors %}
+                            {% for error in form.non_field_errors %}
+                            <div class="form-group">
+                                {{error}}
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                            <div class="form-group">
+                                <label for="firstname">Firstname</label>
+                                <input  name="first_name"  value="{{account.first_name}}" type="text">
+                                <p >{{form.first_name.errors}}</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastname">Lastname</label>
+                                <input name="last_name"  value="{{account.last_name}}" type="text">
+                                <p >{{form.last_name.errors}}</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input name="username"  value="{{account.username}}" type="text">
+                                <p >{{form.username.errors}}</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input name="email"  value="{{account.email}}" type="email">
+                                <p >{{form.email.errors}}</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="new_password">New Password</label>
+                                <input name="new_password"  value="" type="password">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm_password">Confirm Password</label>
+                                <input name="confirm_password"  value="" type="password">
+                            </div>
+                            <div class="form-group">
+                                <button type="submit">Update</button>
+                            </div>
+                        </form>
+
+
+{% endblock content %}

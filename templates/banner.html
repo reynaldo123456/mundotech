@@ -1,0 +1,128 @@
+{% load static %}
+
+<style>
+  .carousel-container-banner {
+    display: flex;
+    align-items: center;
+    width: 90%; /* Reduced width */
+    background: white;
+    position: relative;
+    padding: 1rem 0;
+    margin-bottom: 1rem; /* Added margin */
+  }
+
+  .carousel-slide {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .card {
+    flex: 0 0 calc(33.33% - 20px);
+    margin: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background: linear-gradient(blue, blue);
+    text-decoration: none;
+    max-width: 200px; /* Reduced width */
+  }
+
+  .card img {
+    width: 100%;
+    height: 50px; /* Reduced height */
+    border-radius: 10px 10px 0 0;
+  }
+
+  .card-description {
+    padding: 0.5em 1em;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 2%;
+    font-size: 1em;
+    display: block;
+  }
+
+  .prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px; /* Reduced size */
+    height: 30px; /* Reduced size */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    border-radius: 50%;
+    user-select: none;
+    background-color: rgba(41, 131, 32, 0.8);
+    z-index: 1;
+  }
+
+  .prev {
+    left: 10px;
+  }
+
+  .next {
+    right: 10px;
+  }
+
+  .prev:hover, .next:hover {
+    background-color: rgb(228, 18, 18);
+  }
+</style>
+
+<div class="carousel-container-banner">
+  <div class="prev" onclick="moveSlide(-1)">❮</div>
+  <div class="carousel-slide" id="carousel-slide">
+    {% for blog in blogs|slice:"8" %}
+      <div class="card">
+        <img src="{{blog.banner.url}}" alt="">
+        <a href="{% url 'blog_details' blog.slug %}"><h4>{{blog.title}}</h4></a>
+        <a href="{% url 'blog_details' blog.slug %}"><h4>{{blog.title}}</h4></a>
+        <a href="{% url 'view_user_information' blog.user.username %}">{{blog.user.username}}</a>
+        <a onclick="window.location.href='#'">{{blog.created_date}}</a>
+        <a onclick="window.location.href='#'">{{blog.blog_comments.all.count}} Comments</a>
+        <a onclick="window.location.href='#'">
+          {% if blog.tags.all.count > 0 %}
+            {% for tag in blog.tags.all %}
+              <a href="#">{{tag.title}}</a>
+            {% endfor %}
+          {% else %}
+            None
+          {% endif %}
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+  <div class="next" onclick="moveSlide(1)">❯</div>
+</div>
+</div>
+
+<script>
+let slideIndex = 0;
+const slides = document.querySelectorAll('.card');
+const totalSlides = slides.length;
+
+function moveSlide(step) {
+  slideIndex = (slideIndex + step + totalSlides) % totalSlides;
+  const slideWidth = slides[0].clientWidth;
+  const slideMargin = parseInt(window.getComputedStyle(slides[0]).marginRight);
+  const moveDistance = slideWidth + slideMargin;
+  document.getElementById('carousel-slide').style.transform = 'translateX(' + (-moveDistance * slideIndex) + 'px)';
+}
+
+function startCarousel() {
+  setInterval(() => {
+    moveSlide(1);
+  }, 3000);
+}
+
+window.onload = startCarousel;
+</script>

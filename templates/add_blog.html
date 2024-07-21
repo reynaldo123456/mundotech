@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Add Blog {% endblock title %}
+
+{% block content %}
+
+<style>
+    .container {
+        max-width: 800px;
+        width: 80%;
+        margin: 20px auto;
+        padding: 20px;
+        background: #f0f1f3;
+        border-radius: 5px;
+        border: 2px solid #006ee6;
+        overflow-x: hidden;
+        max-height: 75vh; 
+        
+    }
+
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        
+        
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group label {
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="file"],
+    .form-group select,
+    .form-group textarea {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .form-group .error {
+        color: red;
+        font-size: 0.875em;
+        margin-top: 5px;
+    }
+
+    .form-group button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        align-self: flex-start;
+    }
+
+    .form-group button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<div class="container">
+    <h2>Add the Course you want to Teach</h2>
+    <form action="" method="POST" enctype="multipart/form-data" class="form-container">
+        {{ form.media }}
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="title">Course</label>
+            <input type="text" name="title">
+            <p class="error">{{ form.title.errors }}</p>
+        </div>
+
+        <div class="form-group">
+            <label for="category">Category</label>
+            <select name="category" id="category_id">
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.title }}</option>
+                {% endfor %}
+            </select>
+            <p class="error">{{ form.category.errors }}</p>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            {{ form.description | safe }}
+        </div>
+
+        <div class="form-group">
+            <label for="banner">Banner</label>
+            <input type="file" name="banner">
+            <p class="error">{{ form.banner.errors }}</p>
+        </div>
+
+        <div class="form-group">
+            <label for="tags">Tag</label>
+            <textarea name="tags" id="" cols="30" rows="10" placeholder="enter comma separated values"></textarea>
+            <p class="error">{{ form.tags.errors }}</p>
+        </div>
+
+        <div class="form-group">
+            <label>CCI</label>
+            <textarea name="CCI" cols="30" rows="10" placeholder="enter comma separated values"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Price</label>
+            <textarea name="price" cols="30" rows="10" placeholder="enter comma separated values"></textarea>
+        </div>
+
+        <div class="form-group">
+            <button type="submit">Add</button>
+        </div>
+    </form>
+</div>
+
+{% endblock content %}
+
+

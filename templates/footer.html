@@ -1,0 +1,87 @@
+<style>
+  footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0; /* Reducir padding superior e inferior */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+  footer .container-footer {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  footer ul {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
+    justify-content: center;
+    padding: 0;
+    margin: 0; /* Eliminar márgenes adicionales */
+  }
+
+  footer li {
+    list-style: none;
+    margin: 0 10px; /* Reducir margen entre elementos de la lista */
+  }
+
+  footer a {
+    color: #bdc3c7;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    letter-spacing: -0.5px; /* Reducir espacio entre letras */
+  }
+
+  footer a:hover {
+    color: #f39c12;
+  }
+
+  footer p {
+    margin-top: 10px; /* Reducir margen superior */
+    margin-bottom: 5px; /* Reducir margen inferior */
+    font-size: 0.75em;
+    color: #95a5a6;
+    line-height: 1.2; /* Reducir line-height */
+    letter-spacing: -0.5px; /* Reducir espacio entre letras */
+  }
+
+  footer .footer-bottom {
+    border-top: 1px solid #34495e;
+    padding-top: 10px; /* Reducir padding superior */
+    width: 100%;
+  }
+
+  footer ul {
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
+  }
+
+  footer li {
+    flex: 1 1 auto; /* Los elementos de la lista se ajustan y envuelven según sea necesario */
+  }
+
+  footer a {
+    display: block;
+    padding: 2px 0; /* Reducir padding vertical */
+  }
+</style>
+
+<footer>
+  <div class="container-footer">
+    <ul>
+      <li><a href="#">Facebook</a></li>
+      <li><a href="#">Twitter</a></li>
+      <li><a href="#">Behance</a></li>
+      <li><a href="#">Linkedin</a></li>
+      <li><a href="#">Dribbble</a></li>
+    </ul>
+    <div class="footer-bottom">
+      <p>Copyright 2020 Stand Blog Co. | Design: <a rel="nofollow" href="https://templatemo.com" target="_parent">TemplateMo</a></p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,389 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} {% endblock title %}
+
+{% block content %}
+
+<style>
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 20px;
+    background: none;
+    
+    
+
+}
+
+.blog-details {
+    flex-direction: column;
+    flex: 1;
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 20px;
+    box-sizing: border-box;
+    
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.blog-details img.blog-image {
+    max-width: 100%;
+    width: 50%;
+    height: 50%;
+    border-radius: 5px;
+    border: 2px solid #006ee6;
+}
+
+.blog-info {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    background: #f0f1f3;
+    padding: 20px;  /* Agregado para darle más espacio interno */
+    margin-bottom: 20px;  /* Agregado para darle más espacio con otros elementos */
+    border: 2px solid #006ee6;
+    box-sizing: border-box;
+}
+.blog-info a{
+    text-transform: uppercase; /* Convertir texto a mayúsculas */
+    font-family: 'Cambria', Cochin, Georgia, Times, 'Times New Roman', serif; /* Ejemplo de una fuente 'bonita' */
+    margin-bottom: 20px;
+    text-decoration: none;
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+
+
+.blog-meta {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    background: none;
+}
+
+.blog-meta p {
+    margin-right: 30px; /* Añade un margen derecho para separar los elementos */
+    margin-bottom: 0; /* Remueve cualquier margen inferior si es necesario */
+}
+
+.blog-meta li {
+    margin-right: 20px;
+}
+
+.blog-description {
+    margin-top: 30px;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    text-align: justify;
+}
+
+.blog-description p {
+    margin: 0;
+}
+
+.tags {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tags li {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+
+.add-comment-section {
+    margin-top: 20px;
+    border: 2px solid #006ee6;
+    background: #f0f1f3;
+    padding: 20px;
+}
+
+.comments-section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0 auto;
+    border: 2px solid #006ee6;
+    background: #f0f1f3;
+    box-sizing: border-box;
+    padding: 21px;
+}
+
+.comments-list {
+    list-style: none;
+    padding: 0px;
+    
+}
+
+.comment {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.comment-avatar,
+.reply-avatar {
+    width: 40px;
+    height: 40px;
+    max-width: 40px; /* Mantener tamaño máximo */
+    max-height: 40px; /* Mantener tamaño máximo */
+    border-radius: 50%;
+}
+
+.comment-content,
+.reply-content {
+    flex: 1;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    padding: 10px;
+    margin-left: 10px;
+}
+
+.comment-content h4,
+.reply-content h4 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    font-size: 16px;
+    text-transform: uppercase; /* Convertir texto a mayúsculas */
+    font-family: 'Cambria', Cochin, Georgia, Times, 'Times New Roman', serif; /* Ejemplo de una fuente 'bonita' */
+}
+
+
+
+.comment-content h4 span,
+.reply-content h4 span {
+    margin-left: 0; /* Quitar el margen izquierdo */
+    font-size: 14px; /* Ajustar el tamaño de la fuente */
+    
+    
+}
+
+
+.comment-content p,
+.reply-content p {
+    margin: 5px 0;
+    font-family: 'Cambria', Cochin, Georgia, Times, 'Times New Roman', serif; /* Ejemplo de una fuente 'bonita' */
+}
+.textinput {
+    width: 100%; /* Ocupa el ancho completo del contenedor padre */
+    height: auto; /* Altura automática basada en el contenido */
+    min-height: 50px; /* Altura mínima para que sea útil incluso cuando está vacío */
+    padding: 1px; /* Espaciado interno para no pegar el texto a los bordes */
+    border: 1px solid #ccc; /* Borde sutil, puedes personalizarlo a tu gusto */
+    box-sizing: border-box; /* Incluye el padding y el borde en el ancho y altura total */
+    font-size: 1rem; /* Tamaño de fuente relativo al tamaño base del navegador */
+    
+    font-family: 'Cambria', Cochin, Georgia, Times, 'Times New Roman', serif; /* Ejemplo de una fuente 'bonita' */
+  }
+
+
+
+.btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.sidebar {
+    flex: 1;
+    
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.card h2 {
+    margin-top: 10px;
+}
+
+.card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.card ul li {
+    margin-bottom: 10px;
+}
+
+.card ul li a {
+    color: #333;
+    text-decoration: none;
+}
+
+.card ul li a:hover {
+    color: #007bff;
+}
+
+.card.related-posts,
+.card.categories,
+.card.tag-clouds {
+    border: 2px solid #006ee6; /* Ajustar el color y grosor del borde según sea necesario */
+    border-radius: 5px; /* Opcional: ajustar el borde redondeado */
+    margin-top: 21px;
+    margin-bottom: 20px; /* Mantener el margen inferior */
+}
+
+
+</style>
+
+
+
+
+<section class="container">
+  <div class="blog-details">
+
+      <div class="blog-header">
+          <img src="{{blog.banner.url}}" alt="" class="blog-image">
+
+          <div class="blog-info">
+              <a href="{% url 'view_user_information' blog.user.username %}">{{blog.user.username}}</a>
+              <a href="javascript:void(0);" class="blog-title">{{blog.title}}</a>
+              <ul class="blog-meta">
+                  
+                  <p>{{blog.created_date}}</p> </br>
+                  <p>{{blog.blog_comments.all.count}} Participant</p>
+                  <p>CCI: {{blog.CCI}}</p>
+                  <p>Price: ${{blog.price}} per hour</p>
+              </ul>
+              <div class="blog-description">
+                  <p>{{blog.description|safe}}</p>
+              </div>
+              <ul class="tags">
+                  {% if blog.tags.all.count > 0 %}
+                      {% for tag in blog.tags.all %}
+                          <li><a href="{% url 'tag_blogs' tag.slug %}">{{tag.title}}</a></li>
+                      {% endfor %}
+                  {% else %}
+                      <li>None</li>
+                  {% endif %}
+              </ul>
+          </div>
+
+      </div>
+
+
+      <div class="comments-section">
+          <h4>BOOK YOUR CLASS</h4>
+          <h4>{{blog.blog_comments.count}} Participants</h4>
+          <ul class="comments-list">
+              {% for comment in blog.blog_comments.all %}
+                  <li class="comment">
+                      <img src="{{comment.user.get_profile_picture}}" alt="" class="comment-avatar">
+                      <div class="comment-content">
+                          <h4>{{comment.user.username}}<span>{{comment.created_date}}</span></h4>
+                          <p>Name: {{comment.name}}</p>
+                          <p>Email: {{comment.email}}</p>
+                          <p>Language: {{comment.text}}</p>
+                          <p>From</p>
+                          <p style="margin-left: 10px;">{{comment.time_begin}}</p>
+                          <p>To</p> 
+                          <p style="margin-left: 10px;">{{comment.time_final}}</p>
+                          <p>Topic: {{comment.topic}}</p>
+                          <form id="comment" action="{% url 'add_reply' blog.id comment.id %}" method="POST">
+                              {% csrf_token %}
+                              <textarea class="textinput" name="text"  id="message" placeholder="Type your reply" required=""></textarea>
+                              <button type="submit" class="btn btn-primary">Reply</button>
+                          </form>
+                          <ul class="replies">
+                              {% for reply in comment.comment_replies.all %}
+                                  <li class="reply">
+                                      <img src="{{reply.user.get_profile_picture}}" alt="" class="comment-avatar">
+                                      <div class="reply-content">
+                                          <h4>{{reply.user.username}}<span>{{reply.created_date}}</span></h4>
+                                          <p>{{reply.text}}</p>
+                                      </div>
+                                  </li>
+                              {% endfor %}
+                          </ul>
+                      </div>
+                  </li>
+              {% endfor %}
+          </ul>
+      </div>
+
+
+      <div class="add-comment-section">
+          <h4>Enroll</h4>
+          <form id="comment" action="{% url 'blog_details' blog.slug %}" method="POST">
+              {% csrf_token %}
+              <textarea class="textinput" name="text"  id="message" placeholder="Language" required=""></textarea>
+              <textarea class="textinput" name="name"  id="message" placeholder="Type your name" required=""></textarea>
+              <textarea class="textinput" name="email"  id="message" placeholder="Type your email" required=""></textarea>
+              <p>From</p>
+              <input type="datetime-local" class="textinput" name="time_begin"  id="message" required="">
+              <p>To</p>
+              <input type="datetime-local" class="textinput" name="time_final"  id="message" required="">
+              <textarea style="margin-top: 5px;" class="textinput" name="topic"  id="message" placeholder="Type the topic" required=""></textarea>
+              <button type="submit" class="btn btn-primary">Apply</button>
+          </form>
+      </div>
+  </div>
+
+
+  <div class="sidebar">
+      
+      <div class="card related-posts">
+          <h2>Related Posts</h2>
+          <ul>
+              {% for blog in related_blogs %}
+                  <li><a href="{% url 'blog_details' blog.slug %}">
+                      <h5>{{blog.title}}</h5>
+                      <span>{{blog.created_date}}</span>
+                  </a></li>
+              {% endfor %}
+          </ul>
+      </div>
+      <div class="card categories">
+          <h2>Categories</h2>
+          <ul>
+              {% for category in categories %}
+                  <li><a href="{% url 'category_blogs' category.slug %}">- {{category.title}}</a></li>
+              {% endfor %}
+          </ul>
+      </div>
+      <div class="card tag-clouds">
+          <h2>Tag Clouds</h2>
+          <ul>
+              {% for tag in tags %}
+                  <li><a href="{% url 'tag_blogs' tag.slug %}">{{tag.title}}</a></li>
+              {% endfor %}
+          </ul>
+      </div>
+  </div>
+</section>
+
+{% endblock content %}
+

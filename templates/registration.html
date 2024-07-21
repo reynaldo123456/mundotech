@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Registration {% endblock title %}
+{% block content %}
+<style>
+  
+
+  .registration-box {
+    max-width: 100%;
+    margin-top: 50px !important;
+    margin:  auto ;
+    width: 20%;
+    
+  align-items: center; /* Añadido para centrar el contenido */
+    justify-content: center !important; /* Añadido para centrar el contenido */
+    padding: 20px;
+    background-color: #f0f1f3;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+
+  .registration-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .registro-form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .registro-input[type="text"],
+  .registro-input[type="email"],
+  .registro-input[type="password"],
+  .registro-input[type="submit"] {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
+  }
+
+  button[type="submit"] {
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  p {
+    color: red;
+    font-size: 14px;
+    margin: 0 0 10px 0;
+  }
+</style>
+
+<div class="registration-box">
+  <div class="registration-title">Create your account</div>
+  <form class="registro-form" id="contact" action="" method="POST" novalidate>
+    {% csrf_token %}
+    <div>
+      <div>
+        <input class="registro-input" name="username" {% if form.is_bound %} value="{{form.username.value}}" {% endif %} type="text" id="username_id" placeholder="Your username" >
+        <p>{{form.username.errors}}</p>
+      </div>
+      <div>
+        <input class="registro-input" name="email" {% if form.is_bound %} value="{{form.email.value}}" {% endif %} type="email" id="email_id" placeholder="Your email" >
+        <p>{{form.email.errors}}</p>
+      </div>
+      <div>
+        <input class="registro-input" name="password" type="password" id="password_id" placeholder="Your password" >
+        <p>{{form.password.errors}}</p>
+      </div>
+      <div>
+        <input class="registro-input" name="confirm_password" type="password" id="confirm_password_id" placeholder="Retype password" >
+        <p>{{form.confirm_password.errors}}</p>
+      </div>
+      <div>
+        <button class="registro-input" type="submit" id="form-submit">Signup</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+{% endblock content %}

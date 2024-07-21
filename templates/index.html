@@ -1,0 +1,324 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} index {% endblock title %}
+
+{% block content %}
+<style>
+  .carousel-container-index {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: none;
+    overflow: hidden;
+    padding: 1.5rem;
+    
+}
+
+
+.section-1 a{
+  text-align: center;
+  margin-top: 0.5rem !important;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  text-decoration: none;
+  color: white;
+  
+  
+  
+  
+}
+
+.additional-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    max-width: 90%;
+    margin-bottom: 2rem;
+    background: none;
+    padding: 40px;
+}
+
+.main-card{
+    
+    margin: 1rem 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background: linear-gradient(white, white);
+    text-align: center;
+    max-width: 100%;
+    width: 30vh;
+    height: 20vh;
+}
+
+.main-card img{
+    width: 100%;
+    height: 60%;
+    border-radius: 10px 10px 0 0;
+    
+    
+}
+
+.main-card .principal-category{
+    font-size: 18px;
+    display: inline-block;
+    text-align: center;
+    width: 80%; /* Tamaño definido */
+    height: 15%;
+    text-decoration: none;
+    color: white;
+    background-color: rgb(50, 32, 131);
+    border-radius: 5px;
+    margin-top: 30px;
+    bottom: 45px; /* Ajustar según sea necesario */
+    
+    font-family: 'Cambria', Cochin, Georgia, Times, 'Times New Roman', serif; /* Ejemplo de una fuente 'bonita' */
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%; /* Ancho del carrusel */
+    max-width: 1500px; /* Ancho máximo */
+    
+    height: 400px;
+    overflow: hidden;
+    background: none;
+  }
+  
+  .carousel {
+    display: flex;
+    transition: transform 0.5s ease;
+    background: none;
+    
+    
+  }
+  
+  .cards-wrapper {
+    display: flex;
+    background: none;
+    
+  }
+  
+  .card {
+    display: flex;
+    flex-direction: column;
+    width: 250px; /* Ancho de cada tarjeta */
+    height: 350px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background: #f0f1f3;
+    text-decoration: none !important;
+    position: relative; /* Añadido para posicionamiento relativo */
+    overflow: hidden;
+    margin: 1rem 0.5rem;
+  
+  }
+  
+  .card img {
+    width: 100%;
+    height: 150px; /* Altura de la imagen */
+    
+  }
+  
+  .card-text {
+    padding: 10px;
+  }
+  
+  .card-text .button-link {
+    font-size: 18px;
+    display: inline-block;
+    text-align: center;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+    width: 80%; /* Tamaño definido */
+    height: 5%;
+    text-decoration: none;
+    color: white;
+    background-color: rgb(41, 131, 32);
+    border-radius: 5px;
+    position: absolute; /* Añadido para posicionamiento absoluto */
+    bottom: 5px; /* Ajustar según sea necesario */
+    left: 50%; /* Para centrar horizontalmente */
+    transform: translateX(-50%); /* Para centrar horizontalmente */
+    font-family: 'Cambria', Cochin, Georgia, Times, 'Times New Roman', serif; /* Ejemplo de una fuente 'bonita' */
+  }
+  .card .button-link:hover {
+    background-color: rgb(228, 18, 18);
+  }
+  
+  .card-text .tag-link {
+    font-size: 14px;
+    text-decoration: none; /* Eliminar subrayado */
+    text-align: left; /* Alinear a la izquierda */
+    display: block; /* Asegurar que ocupe toda la anchura disponible */
+    margin-top: 0.1rem;
+    margin-left: 0.3rem;
+    color: inherit; /* Mantener el color del texto */
+    font-family: 'Cambria', Cochin, Georgia, Times, 'Times New Roman', serif; /* Ejemplo de una fuente 'bonita' */
+  }
+
+  .card .username-link {
+    font-weight: bold; /* Negrita */
+    font-size: 1.1rem; /* Un poco más grande */
+    text-decoration: none; /* Eliminar subrayado si es necesario */
+    color: inherit; /* Mantener el color del texto */
+    margin-top: 1rem;
+    text-transform: uppercase; /* Convertir texto a mayúsculas */
+    font-family: 'Cambria', Cochin, Georgia, Times, 'Times New Roman', serif; /* Ejemplo de una fuente 'bonita' */
+}
+
+  
+  /* Flechas de navegación */
+  .prev,
+  .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .prev:hover,
+  .next:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .prev {
+    left: 10px;
+  }
+  
+  .next {
+    right: 10px;
+  }
+
+
+</style>
+
+<div class="carousel-container-index">
+  <div class="section-1">
+    <a href="{% url 'blogs' %}">REVIEW ALL OUR COURSES</a>
+  </div>
+
+  <div class="additional-cards">
+    {% for category in categories %}
+      <div class="main-card">
+        <img src="{{category.category_banner.url}}" alt="">
+        <a class="principal-category" href="{% url 'category_blogs' category.slug %}">{{category.title}}</a>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="carousel-container">
+    
+    <div class="carousel">
+      <div class="cards-wrapper">
+        {% for blog in blogs|slice:"8" %}
+          <div class="card">
+            <img src="{{blog.banner.url}}" alt="">
+            <div class="card-text">
+              <a class="username-link" href="{% url 'view_user_information' blog.user.username %}">{{blog.user.username}}</a>
+              
+              <a class="tag-link" href="#">{{blog.description|safe}}</a>
+            
+              <a class="button-link" href="{% url 'blog_details' blog.slug %}">{{blog.title}}</a>
+            </div>
+            
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    <button class="prev">❮</button>
+    <button class="next">❯</button>
+  </div>
+
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+const prevButton = document.querySelector('.prev');
+const nextButton = document.querySelector('.next');
+const carousel = document.querySelector('.carousel');
+const cardsWrapper = document.querySelector('.cards-wrapper');
+
+let cardWidth = document.querySelector('.card').offsetWidth + 20; // Ancho de la tarjeta más margen
+let cardsPerPage = Math.floor(carousel.offsetWidth / cardWidth); // Número de tarjetas por página
+let currentSlide = 0; // Slide actual
+let totalSlides = cardsWrapper.children.length - cardsPerPage; // Total de slides
+
+let slideInterval = 3000; // Intervalo de tiempo en milisegundos (3 segundos)
+
+let autoSlide = setInterval(nextSlide, slideInterval); // Iniciar movimiento automático del carrusel
+
+// Función para mover al siguiente slide
+function nextSlide() {
+  if (currentSlide < totalSlides) {
+    currentSlide++;
+    moveToSlide();
+  } else {
+    currentSlide = 0; // Volver al primer slide después del último
+    moveToSlide();
+  }
+}
+
+// Función para manejar el desplazamiento del carrusel
+function moveToSlide() {
+  carousel.style.transform = `translateX(-${currentSlide * cardWidth}px)`;
+}
+
+// Event listener para botón previo
+prevButton.addEventListener('click', function () {
+  clearInterval(autoSlide); // Detener el movimiento automático al hacer clic manual
+  if (currentSlide > 0) {
+    currentSlide--;
+    moveToSlide();
+  } else {
+    currentSlide = totalSlides; // Ir al último slide si estamos en el primero
+    moveToSlide();
+  }
+  autoSlide = setInterval(nextSlide, slideInterval); // Reiniciar el movimiento automático
+});
+
+// Event listener para botón siguiente
+nextButton.addEventListener('click', function () {
+  clearInterval(autoSlide); // Detener el movimiento automático al hacer clic manual
+  nextSlide();
+  autoSlide = setInterval(nextSlide, slideInterval); // Reiniciar el movimiento automático
+});
+
+// Función para reanudar el movimiento automático después de un intervalo
+function restartAutoSlide() {
+  clearInterval(autoSlide);
+  autoSlide = setInterval(nextSlide, slideInterval);
+}
+
+// Manejar el redimensionamiento de la ventana
+window.addEventListener('resize', function () {
+  cardWidth = document.querySelector('.card').offsetWidth + 20; // Actualizar el ancho de la tarjeta
+  cardsPerPage = Math.floor(carousel.offsetWidth / cardWidth); // Recalcular tarjetas por página
+  totalSlides = cardsWrapper.children.length - cardsPerPage; // Actualizar el total de slides
+  moveToSlide(); // Asegurarse de que el carrusel esté en el slide correcto
+  restartAutoSlide(); // Reiniciar el movimiento automático después de redimensionar
+});
+
+// Iniciar movimiento automático al cargar la página
+restartAutoSlide();
+});
+
+</script>
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
